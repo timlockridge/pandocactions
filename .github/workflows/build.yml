@@ -29,12 +29,15 @@ jobs:
 
     - name: Generate HTML website with Pandoc
       run: |
+        mkdir -p output/assets
+        cp assets/style.css output/assets/
+        cp assets/header.html output/assets/
         pandoc src/*.md \
           --metadata-file=metadata.yaml \
           -s \
           --toc \
           --css=assets/style.css \
-          --include-before-body=assets/header.html \
+          --include-before-body=output/assets/header.html \
           -o output/index.html
 
     - name: Upload artifact
