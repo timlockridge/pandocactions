@@ -27,6 +27,13 @@ jobs:
           --include-before-body=assets/cover.tex \
           -o output/document.pdf
 
+    - name: Generate EPUB with Pandoc
+      run: |
+        pandoc src/*.md \
+          --metadata-file=metadata.yaml \
+          --toc \
+          -o output/document.epub
+
     - name: Generate HTML website with Pandoc
       run: |
         mkdir -p output/assets
