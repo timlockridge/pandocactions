@@ -91,4 +91,4 @@ No local dependencies required! All processing happens via GitHub Actions with:
 
 ---
 
-Created by Carlos Evia with help from your uncle ChatGPT| 🧠 Structured Authoring + Markdown + GitHub Automation
+Created by Carlos Evia with help from your uncle ChatGPT | 🧠 Structured Authoring + Markdown + GitHub Automation
