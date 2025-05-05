@@ -4,6 +4,7 @@ This repository is a GitHub Template that uses **Pandoc** and **GitHub Actions**
 
 - 📘 A professional PDF (with cover and table of contents)
 - 🌐 A responsive HTML website
+- 📖 An EPUB ebook with cover and metadata
 - 🚀 Automatic deployment to GitHub Pages
 
 ---
@@ -17,18 +18,52 @@ This repository is a GitHub Template that uses **Pandoc** and **GitHub Actions**
 
 GitHub Actions will:
 - Generate a PDF (`output/document.pdf`)
-- Generate an HTML website (`output/index.html`)
-- Deploy the website to GitHub Pages
+- Generate an EPUB (`output/document.epub`)
+- Generate an HTML site (`output/index.html`)
+- Deploy the HTML site to GitHub Pages
 
 ---
 
-## 🌍 Live Site
+## 🔐 GitHub Actions Permissions for Pages Deployment
 
-To enable GitHub Pages:
+To allow GitHub Actions to publish your HTML site to GitHub Pages, make sure to:
+
+1. Go to **Settings → Actions → General**
+2. Scroll down to **Workflow permissions**
+3. Select ✅ "**Read and write permissions**"
+4. Click **Save**
+
+---
+
+## 📖 EPUB Generation Instructions
+
+The workflow automatically creates an EPUB file (`document.epub`) in the `output/` folder. To customize the EPUB:
+
+1. Add a cover image named `cover.jpg` to the `assets/` folder.
+2. Include metadata in `metadata.yaml` like this:
+
+```yaml
+title: "Your Document Title"
+author: "Carlos Evia"
+date: "2025-05-05"
+lang: "en"
+identifier: "urn:isbn:1234567890"
+```
+
+The EPUB will include:
+- ✅ Cover image
+- ✅ Navigable table of contents
+- ✅ Metadata (title, author, language, identifier)
+
+You can download the EPUB from the GitHub Actions artifacts or include it in your GitHub Pages site if desired.
+
+---
+
+## 🌍 Enable GitHub Pages
 
 1. Go to **Settings → Pages**
 2. Set the source to the `gh-pages` branch and root (`/`) folder
-3. Visit: `https://<your-username>.github.io/<your-repo-name>/`
+3. Visit your live site at: `https://<your-username>.github.io/<your-repo-name>/`
 
 ---
 
@@ -38,9 +73,9 @@ To enable GitHub Pages:
 pandoc-publish/
 ├── .github/workflows/    # GitHub Actions workflow
 ├── src/                  # Your Markdown source files
-├── assets/               # Custom LaTeX cover and CSS
-├── output/               # Generated files (PDF + HTML)
-├── metadata.yaml         # Title, author, and date
+├── assets/               # Custom LaTeX cover, CSS, and EPUB cover
+├── output/               # Generated files (PDF, EPUB, HTML)
+├── metadata.yaml         # Title, author, and metadata
 └── README.md
 ```
 
@@ -56,4 +91,4 @@ No local dependencies required! All processing happens via GitHub Actions with:
 
 ---
 
-Created by Carlos Evia | 🧠 Structured Authoring + Markdown + GitHub Automation
+Created by Carlos Evia with help from your uncle ChatGPT| 🧠 Structured Authoring + Markdown + GitHub Automation
