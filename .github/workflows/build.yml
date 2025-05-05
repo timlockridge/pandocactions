@@ -32,6 +32,7 @@ jobs:
         pandoc src/*.md \
           --metadata-file=metadata.yaml \
           --toc \
+          --epub-cover-image=assets/cover.jpg \
           -o output/document.epub
 
     - name: Generate HTML website with Pandoc
