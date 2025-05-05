@@ -1,0 +1,52 @@
+name: Build and Deploy with Pandoc
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Pandoc
+      run: sudo apt-get update && sudo apt-get install -y pandoc texlive-xetex texlive-fonts-recommended texlive-plain-generic
+
+    - name: Generate PDF with Pandoc
+      run: |
+        mkdir -p output
+        pandoc src/*.md \
+          --metadata-file=metadata.yaml \
+          --pdf-engine=xelatex \
+          --toc \
+          --include-before-body=assets/cover.tex \
+          -o output/document.pdf
+
+    - name: Generate HTML website with Pandoc
+      run: |
+        pandoc src/*.md \
+          --metadata-file=metadata.yaml \
+          -s \
+          --toc \
+          --css=assets/style.css \
+          --include-before-body=assets/header.html \
+          -o output/index.html
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pandoc-output
+        path: output/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./output
+        publish_branch: gh-pages
+        force_orphan: true
