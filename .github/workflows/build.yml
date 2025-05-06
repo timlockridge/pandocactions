@@ -1,4 +1,4 @@
-name: Build Multi-Format Site with Slugified Titles
+name: Build Site with Dynamic Navigation
 
 on:
   push:
@@ -17,13 +17,32 @@ jobs:
     - name: Set up Pandoc and LaTeX
       run: sudo apt-get update && sudo apt-get install -y pandoc texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
-    - name: Prepare output folder
+    - name: Prepare output folder and CSS
       run: |
         mkdir -p output/assets
         cp assets/style.css output/assets/
-        cp assets/header.html output/assets/
         cp assets/footer.html output/assets/
         if [ -f assets/cover.jpg ]; then cp assets/cover.jpg output/assets/; fi
+
+    - name: Generate Dynamic Navigation Header
+      run: |
+        echo '<header><h1>Project Documentation</h1></header>' > output/assets/header.html
+        echo '<nav>' >> output/assets/header.html
+
+        for file in src/*.md; do
+          name=$(basename "$file" .md)
+          case "$name" in
+            index) outname="index.html" ;;
+            01-intro) outname="intro.html" ;;
+            02-chapter1) outname="chapter1.html" ;;
+            *) outname="${name}.html" ;;
+          esac
+
+          title=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
+          echo "<a href=\"$outname\">$title</a>" >> output/assets/header.html
+        done
+
+        echo '</nav><main>' >> output/assets/header.html
 
     - name: Generate PDF
       run: |
@@ -42,7 +61,7 @@ jobs:
           --epub-cover-image=assets/cover.jpg \
           -o output/document.epub
 
-    - name: Generate HTML Pages with Slugified Titles
+    - name: Generate HTML Pages with Dynamic Titles
       run: |
         for file in src/*.md; do
           name=$(basename "$file" .md)
