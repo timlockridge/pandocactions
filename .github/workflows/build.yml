@@ -1,4 +1,4 @@
-name: Build and Deploy with Pandoc
+name: Build Complete Multi-Format Site with Pandoc
 
 on:
   push:
@@ -14,12 +14,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Pandoc
+    - name: Set up Pandoc and LaTeX
       run: sudo apt-get update && sudo apt-get install -y pandoc texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
-    - name: Generate PDF with Pandoc
+    - name: Prepare output folder
       run: |
-        mkdir -p output
+        mkdir -p output/assets
+        cp assets/style.css output/assets/
+        cp assets/header.html output/assets/
+        cp assets/footer.html output/assets/
+        if [ -f assets/cover.jpg ]; then cp assets/cover.jpg output/assets/; fi
+
+    - name: Generate PDF
+      run: |
         pandoc src/*.md \
           --metadata-file=metadata.yaml \
           --pdf-engine=xelatex \
@@ -27,7 +34,7 @@ jobs:
           --include-before-body=assets/cover.tex \
           -o output/document.pdf
 
-    - name: Generate EPUB with Pandoc
+    - name: Generate EPUB
       run: |
         pandoc src/*.md \
           --metadata-file=metadata.yaml \
@@ -35,23 +42,30 @@ jobs:
           --epub-cover-image=assets/cover.jpg \
           -o output/document.epub
 
-    - name: Generate HTML website with Pandoc
+    - name: Generate HTML Pages
       run: |
-        mkdir -p output/assets
-        cp assets/style.css output/assets/
-        cp assets/header.html output/assets/
-        pandoc src/*.md \
-          --metadata-file=metadata.yaml \
-          -s \
-          --toc \
-          --css=assets/style.css \
-          --include-before-body=output/assets/header.html \
-          -o output/index.html
+        for file in src/*.md; do
+          name=$(basename "$file" .md)
+          case "$name" in
+            index) outname="index.html" ;;
+            01-intro) outname="intro.html" ;;
+            02-chapter1) outname="chapter1.html" ;;
+            *) outname="${name}.html" ;;
+          esac
 
-    - name: Upload artifact
+          pandoc "$file" \
+            -s \
+            --toc \
+            --css=assets/style.css \
+            --include-before-body=output/assets/header.html \
+            --include-after-body=output/assets/footer.html \
+            -o output/"$outname"
+        done
+
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: pandoc-output
+        name: site-outputs
         path: output/
 
     - name: Deploy to GitHub Pages
