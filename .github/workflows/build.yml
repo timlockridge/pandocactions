@@ -1,4 +1,4 @@
-name: Build Site with Dynamic Navigation
+name: Build Site with Ordered navtitle Navigation
 
 on:
   push:
@@ -17,29 +17,29 @@ jobs:
     - name: Set up Pandoc and LaTeX
       run: sudo apt-get update && sudo apt-get install -y pandoc texlive-xetex texlive-fonts-recommended texlive-plain-generic
 
-    - name: Prepare output folder and CSS
+    - name: Prepare output and assets
       run: |
         mkdir -p output/assets
         cp assets/style.css output/assets/
         cp assets/footer.html output/assets/
         if [ -f assets/cover.jpg ]; then cp assets/cover.jpg output/assets/; fi
 
-    - name: Generate Dynamic Navigation Header
+    - name: Generate Header with navtitle-based Navigation
       run: |
         echo '<header><h1>Project Documentation</h1></header>' > output/assets/header.html
         echo '<nav>' >> output/assets/header.html
 
-        for file in src/*.md; do
-          name=$(basename "$file" .md)
-          case "$name" in
-            index) outname="index.html" ;;
-            01-intro) outname="intro.html" ;;
-            02-chapter1) outname="chapter1.html" ;;
-            *) outname="${name}.html" ;;
-          esac
+        # Always place index.md first
+        echo '<a href="index.html">Home</a>' >> output/assets/header.html
 
-          title=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
-          echo "<a href=\"$outname\">$title</a>" >> output/assets/header.html
+        for file in $(ls src/[0-9][0-9]-*.md | sort); do
+          name=$(basename "$file" .md)
+          outname="${name#*-}.html"
+          navtitle=$(sed -n '/^navtitle:/s/^navtitle:[ ]*//p' "$file" | head -1)
+          if [ -z "$navtitle" ]; then
+            navtitle=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
+          fi
+          echo "<a href=\"$outname\">$navtitle</a>" >> output/assets/header.html
         done
 
         echo '</nav><main>' >> output/assets/header.html
@@ -61,18 +61,20 @@ jobs:
           --epub-cover-image=assets/cover.jpg \
           -o output/document.epub
 
-    - name: Generate HTML Pages with Dynamic Titles
+    - name: Generate HTML Pages with navtitle titles
       run: |
-        for file in src/*.md; do
+        for file in $(ls src/*.md); do
           name=$(basename "$file" .md)
           case "$name" in
             index) outname="index.html" ;;
-            01-intro) outname="intro.html" ;;
-            02-chapter1) outname="chapter1.html" ;;
+            [0-9][0-9]-*) outname="${name#*-}.html" ;;
             *) outname="${name}.html" ;;
           esac
 
-          title=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
+          title=$(sed -n '/^title:/s/^title:[ ]*//p' "$file" | head -1)
+          if [ -z "$title" ]; then
+            title=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
+          fi
 
           pandoc "$file" \
             -s \
