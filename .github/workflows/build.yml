@@ -36,7 +36,7 @@ jobs:
           name=$(basename "$file" .md)
           outname="${name#*-}.html"
           navtitle=$(sed -n '/^navtitle:/s/^navtitle:[ ]*//p' "$file" | head -1)
-          if [ -z "$navtitle" ]; then
+          if [ -z $navtitle ]; then
             navtitle=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
           fi
           echo "<a href=\"$outname\">$navtitle</a>" >> output/assets/header.html
