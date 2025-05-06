@@ -1,92 +1,105 @@
-# 📄 Pandoc Publish Template
+# 📄 Pandoc Multi-Format Site Template
 
-This repository is a GitHub Template that uses **Pandoc** and **GitHub Actions** to convert Markdown files into:
+This template uses **Pandoc** and **GitHub Actions** to turn simple Markdown files into a polished documentation site with:
 
-- 📘 A professional PDF (with cover and table of contents)
-- 🌐 A responsive HTML website with multi-page layout
-- 📖 An EPUB ebook with cover and metadata
+- 📘 PDF output (with cover page and table of contents)
+- 🌐 Responsive multi-page HTML website with dynamic navigation
+- 📖 EPUB ebook with metadata and optional cover image
 - 🚀 Automatic deployment to GitHub Pages
 
 ---
 
-## ✅ How to Use
+## 🚀 Getting Started
 
-1. Click the green **Use this template** button on GitHub.
-2. Clone your new repository.
-3. Replace files in `src/` with your own Markdown files.
-4. Commit and push changes to the `main` branch.
-
-GitHub Actions will:
-- Generate a PDF (`output/document.pdf`)
-- Generate an EPUB (`output/document.epub`)
-- Generate a multi-page HTML site from all `.md` files
-- Deploy the HTML site to GitHub Pages
-
----
-
-## 🔐 GitHub Actions Permissions for Pages Deployment
-
-To allow GitHub Actions to publish your HTML site to GitHub Pages, make sure to:
-
-1. Go to **Settings → Actions → General**
-2. Scroll down to **Workflow permissions**
-3. Select ✅ "**Read and write permissions**"
-4. Click **Save**
+1. **Use this template** to create your own repository on GitHub.
+2. Clone your new repo and go to the `src/` folder.
+3. Add your Markdown files using the naming convention:
+   ```
+   index.md
+   01-intro.md
+   02-topic.md
+   03-more.md
+   ```
+4. Push your changes to the `main` branch.
+5. GitHub Actions will automatically:
+   - Build your PDF, EPUB, and HTML deliverables
+   - Create a dynamic navigation menu based on your content
+   - Publish your site to GitHub Pages
 
 ---
 
-## 📖 EPUB Generation Instructions
+## ✍️ Writing Your Markdown Files
 
-The workflow automatically creates an EPUB file (`document.epub`) in the `output/` folder. To customize the EPUB:
-
-1. Add a cover image named `cover.jpg` to the `assets/` folder.
-2. Include metadata in `metadata.yaml` like this:
+- Each file **must begin with a YAML metadata block**.
+- Required field:
 
 ```yaml
-title: "Your Document Title"
-author: "Carlos Evia"
-date: "2025-05-05"
-lang: "en"
-identifier: "urn:isbn:1234567890"
+navtitle: "Title to Show in Navigation Menu"
 ```
 
-The EPUB will include:
-- ✅ Cover image
-- ✅ Navigable table of contents
-- ✅ Metadata (title, author, language, identifier)
+- Example:
 
+```markdown
+---
+navtitle: "Structured Authoring"
 ---
 
-## 🌍 Enable GitHub Pages
+# Structured Authoring
 
-1. Go to **Settings → Pages**
-2. Set the source to the `gh-pages` branch and root (`/`) folder
-3. Visit your live site at: `https://<your-username>.github.io/<your-repo-name>/`
-
----
-
-## 📁 Folder Structure
-
-```
-pandoc-publish/
-├── .github/workflows/    # GitHub Actions workflow
-├── src/                  # Your Markdown source files
-├── assets/               # Custom LaTeX cover, CSS, and HTML components
-├── output/               # Generated files (PDF, EPUB, HTML)
-├── metadata.yaml         # Title, author, and metadata
-└── README.md
+Write your content here using regular Markdown.
 ```
 
----
-
-## 🛠 Requirements
-
-No local dependencies required! All processing happens via GitHub Actions with:
-
-- `pandoc`
-- `xelatex` (via TeX Live)
-- `peaceiris/actions-gh-pages`
+- File names like `01-intro.md`, `02-chapter.md` define the order in the menu.
+- `index.md` is always listed first and becomes the landing page.
 
 ---
 
-Created by Carlos Evia with help from your uncle ChatGPT | 🧠 Structured Authoring + Markdown + GitHub Automation
+## 🎨 Customizing the Look and Feel
+
+Modify the following files in the `assets/` folder to style your site:
+
+- `style.css`: Main stylesheet
+- `footer.html`: Footer block
+- `cover.jpg`: Optional EPUB cover
+- `cover.tex`: Optional LaTeX title page for PDF
+
+> The navigation header is generated automatically. Do **not** edit `header.html` manually—it's built during the workflow run using your Markdown titles.
+
+---
+
+## 🔧 Enabling GitHub Pages
+
+1. Go to **Settings → Pages** in your repo
+2. Set source to the `gh-pages` branch and root (`/`) folder
+3. Visit your site at `https://<your-username>.github.io/<your-repo>/`
+
+---
+
+## 🔐 GitHub Actions Permissions
+
+1. Go to **Settings → Actions → General**
+2. Under **Workflow permissions**, check:
+   > ✅ "Read and write permissions"
+3. Click **Save**
+
+This is required for GitHub Actions to deploy your site.
+
+---
+
+## 📁 Folder Overview
+
+```
+.github/workflows/      # GitHub Actions workflow
+assets/                 # CSS, footer, LaTeX, optional cover image
+src/                    # Markdown files (index.md, 01-intro.md, etc.)
+output/                 # Generated site and files
+metadata.yaml           # Global metadata (for EPUB, PDF)
+README.md               # This file
+```
+
+---
+
+## 🙋 Need Help?
+
+This template was created by Carlos Evia with help from your uncle ChatGPT.  
+Feel free to fork and adapt it to your own documentation workflows.
