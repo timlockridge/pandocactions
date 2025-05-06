@@ -1,7 +1,3 @@
----
-title: "Introduction"
----
-
 # Introduction
 
 This section introduces the goals, scope, and structure of the documentation.

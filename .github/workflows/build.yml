@@ -1,4 +1,4 @@
-name: Build Complete Multi-Format Site with Pandoc
+name: Build Multi-Format Site with Slugified Titles
 
 on:
   push:
@@ -42,7 +42,7 @@ jobs:
           --epub-cover-image=assets/cover.jpg \
           -o output/document.epub
 
-    - name: Generate HTML Pages
+    - name: Generate HTML Pages with Slugified Titles
       run: |
         for file in src/*.md; do
           name=$(basename "$file" .md)
@@ -53,9 +53,12 @@ jobs:
             *) outname="${name}.html" ;;
           esac
 
+          title=$(grep -m 1 '^# ' "$file" | sed 's/^# *//')
+
           pandoc "$file" \
             -s \
             --toc \
+            --metadata title="$title" \
             --css=assets/style.css \
             --include-before-body=output/assets/header.html \
             --include-after-body=output/assets/footer.html \

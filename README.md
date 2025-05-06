@@ -3,7 +3,7 @@
 This repository is a GitHub Template that uses **Pandoc** and **GitHub Actions** to convert Markdown files into:
 
 - 📘 A professional PDF (with cover and table of contents)
-- 🌐 A responsive HTML website
+- 🌐 A responsive HTML website with multi-page layout
 - 📖 An EPUB ebook with cover and metadata
 - 🚀 Automatic deployment to GitHub Pages
 
@@ -19,7 +19,7 @@ This repository is a GitHub Template that uses **Pandoc** and **GitHub Actions**
 GitHub Actions will:
 - Generate a PDF (`output/document.pdf`)
 - Generate an EPUB (`output/document.epub`)
-- Generate an HTML site (`output/index.html`)
+- Generate a multi-page HTML site from all `.md` files
 - Deploy the HTML site to GitHub Pages
 
 ---
@@ -55,8 +55,6 @@ The EPUB will include:
 - ✅ Navigable table of contents
 - ✅ Metadata (title, author, language, identifier)
 
-You can download the EPUB from the GitHub Actions artifacts or include it in your GitHub Pages site if desired.
-
 ---
 
 ## 🌍 Enable GitHub Pages
@@ -73,7 +71,7 @@ You can download the EPUB from the GitHub Actions artifacts or include it in you
 pandoc-publish/
 ├── .github/workflows/    # GitHub Actions workflow
 ├── src/                  # Your Markdown source files
-├── assets/               # Custom LaTeX cover, CSS, and EPUB cover
+├── assets/               # Custom LaTeX cover, CSS, and HTML components
 ├── output/               # Generated files (PDF, EPUB, HTML)
 ├── metadata.yaml         # Title, author, and metadata
 └── README.md

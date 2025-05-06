@@ -1,7 +1,3 @@
----
-title: "Welcome to the Documentation Site"
----
-
 # Welcome to the Documentation Site
 
 This is the landing page for your documentation project. Use the navigation links above to explore different sections.
