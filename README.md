@@ -75,6 +75,18 @@ Modify the following files in the `assets/` folder to style your site:
 
 ---
 
+##   📄 Accessing PDF and EPUB Deliverables
+
+The PDF and EPUB outputs are not deployed directly to GitHub Pages.  
+Instead, each workflow run on the **Actions** page provides the PDF and EPUB as a downloadable **artifacts**:
+
+1. Go to the **Actions** tab in your repository.  
+2. Select the latest successful workflow run.  
+3. Scroll down to the **Artifacts** section.  
+4. Click the PDF or EPUB artifact link to download your deliverable.  
+
+---
+
 ## 🔐 GitHub Actions Permissions
 
 1. Go to **Settings → Actions → General**
