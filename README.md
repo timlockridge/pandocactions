@@ -12,7 +12,7 @@ This template uses **Pandoc** and **GitHub Actions** to turn simple Markdown fil
 ## 🚀 Getting Started
 
 1. **Use this template** to create your own repository on GitHub.
-2. Clone your new repo and go to the `src/` folder.
+2. Upload your Markdown files to the `src/` folder (feel free to delete the sample files included with the template).
 3. Add your Markdown files using the naming convention:
    ```
    index.md
@@ -20,6 +20,8 @@ This template uses **Pandoc** and **GitHub Actions** to turn simple Markdown fil
    02-topic.md
    03-more.md
    ```
+> Note that the `index.md` file is needed to become the homepage of a website deliverable, but it will be the last file processed in an EPUB or PDF deliverable.
+
 4. Push your changes to the `main` branch.
 5. GitHub Actions will automatically:
    - Build your PDF, EPUB, and HTML deliverables
@@ -54,6 +56,26 @@ Write your content here using regular Markdown.
 
 ---
 
+## 🔧 Enabling GitHub Pages
+
+1. Go to **Settings → Pages** in your repo
+2. Set source to the `gh-pages` branch and root (`/`) folder
+3. Visit your site at `https://<your-username>.github.io/<your-repo>/`
+
+---
+
+## 🔐 GitHub Actions Permissions
+
+1. Go to **Settings → Actions → General**
+2. Under **Workflow permissions**, check:
+   > ✅ "Read and write permissions"
+3. Click **Save**
+
+This is required for GitHub Actions to deploy your site.
+
+
+---
+
 ## 🎨 Customizing the Look and Feel
 
 Modify the following files in the `assets/` folder to style your site:
@@ -67,14 +89,6 @@ Modify the following files in the `assets/` folder to style your site:
 
 ---
 
-## 🔧 Enabling GitHub Pages
-
-1. Go to **Settings → Pages** in your repo
-2. Set source to the `gh-pages` branch and root (`/`) folder
-3. Visit your site at `https://<your-username>.github.io/<your-repo>/`
-
----
-
 ##   📄 Accessing PDF and EPUB Deliverables
 
 The PDF and EPUB outputs are not deployed directly to GitHub Pages.  
@@ -83,18 +97,8 @@ Instead, each workflow run on the **Actions** page provides the PDF and EPUB as 
 1. Go to the **Actions** tab in your repository.  
 2. Select the latest successful workflow run.  
 3. Scroll down to the **Artifacts** section.  
-4. Click the PDF or EPUB artifact link to download your deliverable.  
+4. Download the `site-outputs.zip` file to access the PDF and EPUB artifacts.  
 
----
-
-## 🔐 GitHub Actions Permissions
-
-1. Go to **Settings → Actions → General**
-2. Under **Workflow permissions**, check:
-   > ✅ "Read and write permissions"
-3. Click **Save**
-
-This is required for GitHub Actions to deploy your site.
 
 ---
 
@@ -114,4 +118,4 @@ README.md               # This file
 ## 🙋 Need Help?
 
 This template was created by Carlos Evia with help from your uncle ChatGPT.  
-Feel free to fork and adapt it to your own documentation workflows.
+Feel free to use the template and adapt it to your own documentation workflows.
